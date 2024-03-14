@@ -5,5 +5,11 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [sitemap(), tailwind()]
+  integrations: [sitemap(), tailwind()],
+  image: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: '**.amazonaws.com',
+    }],
+  },
 });
