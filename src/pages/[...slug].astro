@@ -19,9 +19,7 @@ import Footer from "../components/Footer.astro";
 
 export async function getStaticPaths() {
   const posts = await getPages();
-  console.log(
-    (posts[0].properties["件名"] as PropertyValueTitle).title[0].plain_text,
-  );
+
   return posts.map((post) => ({
     params: {
       slug: post.id,
