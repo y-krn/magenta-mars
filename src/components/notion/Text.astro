@@ -9,15 +9,9 @@ const { text } = Astro.props;
 ---
 
 <>
-  <p>
-    {
-      text.map((t) => {
-        if (t.href) {
-          return <a href={t.href}>{t.plain_text}</a>;
-        } else {
-          return t.plain_text;
-        }
-      })
-    }
-  </p>
+  {
+    text.map((t) =>
+      t.href ? <a href={t.href}>{t.plain_text}</a> : t.plain_text,
+    )
+  }
 </>
