@@ -1,0 +1,16 @@
+---
+import type { ParagraphBlock } from "../../libs/notion/types";
+import Text from "./Text.astro";
+
+type Props = {
+  block: ParagraphBlock;
+};
+
+const { block } = Astro.props;
+---
+
+<>
+  <p>
+    <Text text={block.paragraph.rich_text} />
+  </p>
+</>

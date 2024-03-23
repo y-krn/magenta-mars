@@ -1,0 +1,14 @@
+---
+import type { Heading1Block } from "../../libs/notion/types";
+import Text from "./Text.astro";
+
+type Props = {
+  block: Heading1Block;
+};
+
+const { block } = Astro.props;
+---
+
+<>
+  <h1><Text text={block.heading_1.rich_text} /></h1>
+</>

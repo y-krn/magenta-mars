@@ -1,0 +1,19 @@
+---
+import type { ImageBlock } from "../../libs/notion/types";
+import { Image as AstroImage } from "astro:assets";
+
+type Props = {
+  block: ImageBlock;
+};
+
+const { block } = Astro.props;
+
+const url =
+  block.image.type === "external"
+    ? block.image.external.url
+    : block.image.file.url;
+---
+
+<>
+  <AstroImage src={url} alt="" inferSize />
+</>

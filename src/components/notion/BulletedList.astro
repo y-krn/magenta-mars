@@ -1,0 +1,22 @@
+---
+import type { ListItemBlock } from "../../libs/notion/types";
+
+type Props = {
+  block: ListItemBlock;
+};
+
+const { block } = Astro.props;
+---
+
+<>
+  <ul>
+    {
+      block.blocks.map((block) => (
+        <li>
+          {block.type === "bulleted_list_item" &&
+            block.bulleted_list_item.rich_text[0]?.plain_text}
+        </li>
+      ))
+    }
+  </ul>
+</>

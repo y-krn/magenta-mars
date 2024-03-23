@@ -1,0 +1,15 @@
+---
+import type { RichText } from "../../libs/notion/types";
+
+type Props = {
+  text: RichText[];
+};
+
+const { text } = Astro.props;
+---
+
+<>
+  <p>
+    {text.map((t) => t.plain_text)}
+  </p>
+</>
