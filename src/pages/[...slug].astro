@@ -1,6 +1,10 @@
 ---
 import { getPages, getPosts } from "../libs/notion/client";
-import type { Block, ListItemBlock } from "../libs/notion/types";
+import type {
+  Block,
+  ListItemBlock,
+  PropertyValueTitle,
+} from "../libs/notion/types";
 import Paragraph from "../components/notion/Paragraph.astro";
 import Heading1 from "../components/notion/Heading1.astro";
 import Heading2 from "../components/notion/Heading2.astro";
@@ -15,13 +19,22 @@ import Footer from "../components/Footer.astro";
 
 export async function getStaticPaths() {
   const posts = await getPages();
-
+  console.log(
+    (posts[0].properties["件名"] as PropertyValueTitle).title[0].plain_text,
+  );
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: {
+      slug: post.id,
+    },
+    props: {
+      title: (post.properties["件名"] as PropertyValueTitle).title[0]
+        .plain_text,
+    },
   }));
 }
 
 const { slug } = Astro.params;
+const { title } = Astro.props;
 const blocks: Block[] = await getPosts(slug);
 
 const nodes: Block[] = [];
@@ -65,6 +78,7 @@ blocks.forEach((block: Block, index: number) => {
   <body>
     <Header />
     <main class="prose mx-auto">
+      <h1>{title}</h1>
       <article class="prose mx-auto">
         {
           (() => {
