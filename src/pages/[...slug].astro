@@ -1,0 +1,96 @@
+---
+import { getPages, getPosts } from "../libs/notion/client";
+import type { Block, ListItemBlock } from "../libs/notion/types";
+import Paragraph from "../components/notion/Paragraph.astro";
+import Heading1 from "../components/notion/Heading1.astro";
+import Heading2 from "../components/notion/Heading2.astro";
+import Heading3 from "../components/notion/Heading3.astro";
+import BulletedList from "../components/notion/BulletedList.astro";
+import NumberedList from "../components/notion/NumberedList.astro";
+import Image from "../components/notion/Image.astro";
+import BaseHead from "../components/BaseHead.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const posts = await getPages();
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const blocks: Block[] = await getPosts(slug);
+
+const nodes: Block[] = [];
+
+blocks.forEach((block: Block, index: number) => {
+  const previousBlock: Block = blocks[index - 1];
+  const previousNode: Block = nodes[nodes.length - 1];
+
+  const handleListType = (
+    listType: "bulleted_list" | "numbered_list",
+    itemType: string,
+  ) => {
+    if (previousBlock?.type !== itemType && block.type === itemType) {
+      const listItem: ListItemBlock = {
+        type: listType,
+        blocks: [block],
+      };
+      nodes.push(listItem);
+    } else if (previousNode?.type === listType && block.type === itemType) {
+      previousNode.blocks.push(block);
+    }
+  };
+
+  handleListType("bulleted_list", "bulleted_list_item");
+  handleListType("numbered_list", "numbered_list_item");
+
+  if (
+    block.type !== "bulleted_list_item" &&
+    block.type !== "numbered_list_item"
+  ) {
+    nodes.push(block);
+  }
+});
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main class="prose mx-auto">
+      <article class="prose mx-auto">
+        {
+          (() => {
+            const render = (node: Block) => {
+              switch (node.type) {
+                case "paragraph":
+                  return <Paragraph block={node} />;
+                case "heading_1":
+                  return <Heading1 block={node} />;
+                case "heading_2":
+                  return <Heading2 block={node} />;
+                case "heading_3":
+                  return <Heading3 block={node} />;
+                case "bulleted_list":
+                  return <BulletedList block={node} />;
+                case "numbered_list":
+                  return <NumberedList block={node} />;
+                case "image":
+                  return <Image block={node} />;
+              }
+            };
+            return nodes.map((node) => render(node));
+          })()
+        }
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
