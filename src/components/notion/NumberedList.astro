@@ -1,5 +1,6 @@
 ---
 import type { ListItemBlock } from "../../libs/notion/types";
+import Text from "./Text.astro";
 
 type Props = {
   block: ListItemBlock;
@@ -11,12 +12,14 @@ const { block } = Astro.props;
 <>
   <ol>
     {
-      block.blocks.map((block) => (
-        <li>
-          {block.type === "numbered_list_item" &&
-            block.numbered_list_item.rich_text[0]?.plain_text}
-        </li>
-      ))
+      block.blocks.map(
+        (block) =>
+          block.type === "numbered_list_item" && (
+            <li>
+              <Text text={block.numbered_list_item.rich_text} />
+            </li>
+          ),
+      )
     }
   </ol>
 </>
