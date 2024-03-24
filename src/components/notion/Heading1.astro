@@ -10,5 +10,7 @@ const { block } = Astro.props;
 ---
 
 <>
-  <h1><Text text={block.heading_1.rich_text} /></h1>
+  <h1>
+    {block.heading_1.rich_text.map((t) => <Text text={t} />)}
+  </h1>
 </>

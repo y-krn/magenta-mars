@@ -16,7 +16,9 @@ const { block } = Astro.props;
         (block) =>
           block.type === "numbered_list_item" && (
             <li>
-              <Text text={block.numbered_list_item.rich_text} />
+              {block.numbered_list_item.rich_text.map((t) => (
+                <Text text={t} />
+              ))}
             </li>
           ),
       )

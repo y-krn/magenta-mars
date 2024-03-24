@@ -2,7 +2,7 @@
 import type { RichText } from "../../libs/notion/types";
 
 type Props = {
-  text: RichText[];
+  text: RichText;
 };
 
 const { text } = Astro.props;
@@ -10,8 +10,15 @@ const { text } = Astro.props;
 
 <>
   {
-    text.map((t) =>
-      t.href ? <a href={t.href}>{t.plain_text}</a> : t.plain_text,
-    )
+    (() => {
+      {
+        const t = text.annotations.code ? (
+          <code>{text.plain_text}</code>
+        ) : (
+          text.plain_text
+        );
+        return text.href ? <a href={text.href}>{t}</a> : t;
+      }
+    })()
   }
 </>

@@ -11,6 +11,6 @@ const { block } = Astro.props;
 
 <>
   <p>
-    <Text text={block.paragraph.rich_text} />
+    {block.paragraph.rich_text.map((t) => <Text text={t} />)}
   </p>
 </>
