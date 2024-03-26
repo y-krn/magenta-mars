@@ -1,5 +1,5 @@
 ---
-import { getPages, getPosts } from "../libs/notion/client";
+import { getPages, getPosts, getTitleProperty } from "../libs/notion/client";
 import type {
   Block,
   ListItemBlock,
@@ -25,15 +25,15 @@ export async function getStaticPaths() {
       slug: post.id,
     },
     props: {
-      title: (post.properties["件名"] as PropertyValueTitle).title[0]
-        .plain_text,
+      post: post,
     },
   }));
 }
 
 const { slug } = Astro.params;
-const { title } = Astro.props;
+const { post } = Astro.props;
 const blocks: Block[] = await getPosts(slug);
+const title: PropertyValueTitle = await getTitleProperty(post);
 
 const nodes: Block[] = [];
 
@@ -76,7 +76,7 @@ blocks.forEach((block: Block, index: number) => {
   <body>
     <Header />
     <main class="prose mx-auto">
-      <h1>{title}</h1>
+      <h1>{title.title.map((t) => t.plain_text).join("")}</h1>
       <article class="prose mx-auto">
         {
           (() => {
