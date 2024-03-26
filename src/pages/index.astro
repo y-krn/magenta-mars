@@ -4,7 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import FormattedDate from "../components/FormattedDate.astro";
-import { getPages } from "../libs/notion/client";
+import { getPages, getTitleProperty } from "../libs/notion/client";
 import type { PropertyValueTitle } from "../libs/notion/types";
 
 const pages = await getPages();
@@ -21,21 +21,23 @@ const pages = await getPages();
       <section>
         <ul>
           {
-            pages.map((page) => (
-              <li class="flex items-center">
-                <a href={`/${page.id}/`} class="mr-4">
-                  <p class="font-bold mr-1">
-                    {
-                      (page.properties["件名"] as PropertyValueTitle).title[0]
-                        .plain_text
-                    }
-                  </p>
-                </a>
-                <p>
-                  <FormattedDate date={new Date(page.created_time)} />
-                </p>
-              </li>
-            ))
+            Promise.all(
+              pages.map(async (page) => {
+                const title: PropertyValueTitle = await getTitleProperty(page);
+                return (
+                  <li class="flex items-center">
+                    <a href={`/${page.id}/`} class="mr-4">
+                      <p class="font-bold mr-1">
+                        {title.title.map((t) => t.plain_text).join("")}
+                      </p>
+                    </a>
+                    <p>
+                      <FormattedDate date={new Date(page.created_time)} />
+                    </p>
+                  </li>
+                );
+              }),
+            )
           }
         </ul>
       </section>
