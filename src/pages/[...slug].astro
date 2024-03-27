@@ -5,13 +5,7 @@ import type {
   ListItemBlock,
   PropertyValueTitle,
 } from "../libs/notion/types";
-import Paragraph from "../components/notion/Paragraph.astro";
-import Heading1 from "../components/notion/Heading1.astro";
-import Heading2 from "../components/notion/Heading2.astro";
-import Heading3 from "../components/notion/Heading3.astro";
-import BulletedList from "../components/notion/BulletedList.astro";
-import NumberedList from "../components/notion/NumberedList.astro";
-import Image from "../components/notion/Image.astro";
+import Content from "../components/notion/Content.astro";
 import BaseHead from "../components/BaseHead.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Header from "../components/Header.astro";
@@ -77,31 +71,7 @@ blocks.forEach((block: Block, index: number) => {
     <Header />
     <main class="prose mx-auto">
       <h1>{title.title.map((t) => t.plain_text).join("")}</h1>
-      <article class="prose mx-auto">
-        {
-          (() => {
-            const render = (node: Block) => {
-              switch (node.type) {
-                case "paragraph":
-                  return <Paragraph block={node} />;
-                case "heading_1":
-                  return <Heading1 block={node} />;
-                case "heading_2":
-                  return <Heading2 block={node} />;
-                case "heading_3":
-                  return <Heading3 block={node} />;
-                case "bulleted_list":
-                  return <BulletedList block={node} />;
-                case "numbered_list":
-                  return <NumberedList block={node} />;
-                case "image":
-                  return <Image block={node} />;
-              }
-            };
-            return nodes.map((node) => render(node));
-          })()
-        }
-      </article>
+      <article class="prose mx-auto"><Content nodes={nodes} /></article>
     </main>
     <Footer />
   </body>
