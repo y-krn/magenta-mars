@@ -17,8 +17,12 @@ export async function getPosts(blockId: string) {
   return response.results as Block[];
 }
 
-export async function getTitleProperty(page: Page): Promise<PropertyValueTitle> {
-  const titleProperty = Object.values(page.properties).find((property) => property.type === "title");
+export async function getTitleProperty(
+  page: Page,
+): Promise<PropertyValueTitle> {
+  const titleProperty = Object.values(page.properties).find(
+    (property) => property.type === "title",
+  );
   if (!titleProperty || titleProperty.type !== "title") {
     throw new Error("Title property not found");
   }
