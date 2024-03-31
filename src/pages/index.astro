@@ -26,14 +26,14 @@ const pages = await getPages();
                 const title: PropertyValueTitle = await getTitleProperty(page);
                 return (
                   <li class="flex items-center">
-                    <a href={`/${page.id}/`} class="mr-4">
-                      <p class="font-bold mr-1">
+                    <a href={`/${page.id}/`}>
+                      <span class="font-bold mr-1">
                         {title.title.map((t) => t.plain_text).join("")}
-                      </p>
+                      </span>
                     </a>
-                    <p>
+                    <span>
                       <FormattedDate date={new Date(page.created_time)} />
-                    </p>
+                    </span>
                   </li>
                 );
               }),
