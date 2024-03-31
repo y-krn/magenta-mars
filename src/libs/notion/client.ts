@@ -5,6 +5,12 @@ export async function getPages() {
   const notion = new Client({ auth: import.meta.env.NOTION_API_KEY });
   const response = await notion.databases.query({
     database_id: import.meta.env.NOTION_DATABASE_ID,
+    filter: {
+      property: "ステータス",
+      status: {
+        equals: "公開済み",
+      },
+    },
   });
   return response.results as Page[];
 }
