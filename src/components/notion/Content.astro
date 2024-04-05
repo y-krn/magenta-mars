@@ -6,6 +6,7 @@ import Heading3 from "./Heading3.astro";
 import BulletedList from "./BulletedList.astro";
 import NumberedList from "./NumberedList.astro";
 import Image from "./Image.astro";
+import Code from "./Code.astro";
 import type { Block } from "../../libs/notion/types";
 
 type Props = {
@@ -33,6 +34,8 @@ const { nodes } = Astro.props;
           return <NumberedList block={node} />;
         case "image":
           return <Image block={node} />;
+        case "code":
+          return <Code block={node} />;
       }
     };
     return nodes.map((node) => render(node));

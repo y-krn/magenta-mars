@@ -1,0 +1,15 @@
+---
+import type { CodeBlock } from "../../libs/notion/types";
+import { Code as AstroCode } from "astro:components";
+
+type Props = {
+  block: CodeBlock;
+};
+
+const { block } = Astro.props;
+---
+
+<AstroCode
+  lang={block.code.language as any}
+  code={block.code.rich_text.map((t) => t.plain_text).join("")}
+/>
