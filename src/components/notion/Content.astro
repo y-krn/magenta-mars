@@ -1,14 +1,14 @@
 ---
-import Paragraph from "./Paragraph.astro";
+import type { Block } from "../../libs/notion/types";
+import Bookmark from "./Bookmark.astro";
+import BulletedList from "./BulletedList.astro";
+import Code from "./Code.astro";
 import Heading1 from "./Heading1.astro";
 import Heading2 from "./Heading2.astro";
 import Heading3 from "./Heading3.astro";
-import BulletedList from "./BulletedList.astro";
-import NumberedList from "./NumberedList.astro";
 import Image from "./Image.astro";
-import Code from "./Code.astro";
-import Bookmark from "./Bookmark.astro";
-import type { Block } from "../../libs/notion/types";
+import NumberedList from "./NumberedList.astro";
+import Paragraph from "./Paragraph.astro";
 
 type Props = {
   nodes: Block[];
