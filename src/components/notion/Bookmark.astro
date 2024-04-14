@@ -1,0 +1,14 @@
+---
+import type { BookmarkBlock } from "../../libs/notion/types";
+import { LinkPreview } from "@astro-community/astro-embed-link-preview";
+
+type Props = {
+  block: BookmarkBlock;
+};
+
+const { block } = Astro.props;
+---
+
+<>
+  <LinkPreview id={block.bookmark.url} />
+</>
