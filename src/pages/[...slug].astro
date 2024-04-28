@@ -41,8 +41,10 @@ blocks.forEach((block: Block, index: number) => {
   ) => {
     if (previousBlock?.type !== itemType && block.type === itemType) {
       const listItem: ListItemBlock = {
+        id: block.id,
         type: listType,
         blocks: [block],
+        has_children: false,
       };
       nodes.push(listItem);
     } else if (previousNode?.type === listType && block.type === itemType) {
@@ -71,7 +73,7 @@ blocks.forEach((block: Block, index: number) => {
     <Header />
     <main class="prose mx-auto">
       <h1>{title.title.map((t) => t.plain_text).join("")}</h1>
-      <article class="prose mx-auto"><Content nodes={nodes} /></article>
+      <article><Content nodes={nodes} /></article>
     </main>
     <Footer />
   </body>

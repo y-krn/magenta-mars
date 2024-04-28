@@ -1,0 +1,16 @@
+---
+import type { ColumnBlock, ColumnListBlock } from "../../libs/notion/types";
+import Column from "./Column.astro";
+
+type Props = {
+  block: ColumnListBlock;
+};
+
+const { block } = Astro.props;
+---
+
+<>
+  <div class="grid grid-flow-col auto-cols-auto">
+    {block.children?.map((column) => <Column block={column as ColumnBlock} />)}
+  </div>
+</>

@@ -1,0 +1,12 @@
+---
+import type { ColumnBlock } from "../../libs/notion/types";
+import Content from "./Content.astro";
+
+type Props = {
+  block: ColumnBlock;
+};
+
+const { block } = Astro.props;
+---
+
+{block.children && <Content nodes={block.children} />}

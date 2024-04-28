@@ -3,6 +3,7 @@ import type { Block } from "../../libs/notion/types";
 import Bookmark from "./Bookmark.astro";
 import BulletedList from "./BulletedList.astro";
 import Code from "./Code.astro";
+import ColumnList from "./ColumnList.astro";
 import Heading1 from "./Heading1.astro";
 import Heading2 from "./Heading2.astro";
 import Heading3 from "./Heading3.astro";
@@ -39,6 +40,8 @@ const { nodes } = Astro.props;
           return <Code block={node} />;
         case "bookmark":
           return <Bookmark block={node} />;
+        case "column_list":
+          return <ColumnList block={node} />;
       }
     };
     return nodes.map((node) => render(node));
