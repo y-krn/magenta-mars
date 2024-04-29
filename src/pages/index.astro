@@ -25,13 +25,13 @@ const pages = await getPages();
               pages.map(async (page) => {
                 const title: PropertyValueTitle = await getTitleProperty(page);
                 return (
-                  <li class="flex items-center">
+                  <li class="grid grid-flow-col auto-cols-auto">
                     <a href={`/${page.id}/`}>
-                      <span class="font-bold mr-1">
+                      <span class="font-bold mr-1 text-left">
                         {title.title.map((t) => t.plain_text).join("")}
                       </span>
                     </a>
-                    <span>
+                    <span class="text-right">
                       <FormattedDate date={new Date(page.created_time)} />
                     </span>
                   </li>
